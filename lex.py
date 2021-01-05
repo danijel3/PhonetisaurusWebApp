@@ -1,6 +1,7 @@
 import json
 
 from flask import Blueprint, render_template, send_file, Response, request, jsonify, abort, redirect, url_for
+from werkzeug.utils import secure_filename
 
 from settings import config
 
@@ -55,7 +56,7 @@ def lex_add():
     if request.method == 'GET':
         return render_template('lex_add.html')
     else:
-        name = request.form.get('name')
+        name = secure_filename(request.form.get('name'))
         lex_path = config['data'] / 'lex' / (name + '.json')
 
         file = request.files['file']

@@ -23,5 +23,40 @@
             </div>
         </form>
     </div>
+    <h2 class="mt-5">Available models</h2>
+    <div class="container border border-secondary m-2 p-4">
+        {% for model in model_files %}
+        <div class="row">
+            <div class="col-10">
+                <i class="bi bi-puzzle"></i>
+                {{ model.stem }}
+            </div>
+            <div class="col-2 mb-1 text-end">
+                <a class="btn btn-info" title="Download" href="/vocab/get/{{ model.stem }}">
+                    <i class="bi bi-download"></i>
+                </a>
+                <a class="btn btn-danger" href="delete/{{ model.stem }}" title="Delete">
+                    <i class="bi bi-trash"></i>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <h2 class="mt-5">Upload model</h2>
+    <div class="container border border-secondary m-2 p-4">
+        <form action="add" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label" for="name2">Name:</label>
+                <input class="form-control" type="text" name="name" id="name2" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="file">File (optional):</label>
+                <input class="form-control" type="file" name="file" id="file">
+            </div>
+            <div class="mb-3 text-center">
+                <input type="submit" value="Add" class="btn btn-success col-2">
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}
