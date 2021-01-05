@@ -30,6 +30,7 @@ def g2p_wlist():
     cache_file = None
     if request.form.get('cache'):
         cache_file = config['data'] / 'lex' / (request.form.get('cache') + '.json')
+    nbest = int(request.form.get('nbest'))
     pmass = float(request.form.get('pmass'))
     beam = int(request.form.get('beam'))
 
@@ -52,7 +53,7 @@ def g2p_wlist():
                 g.write(w + '\n')
 
     cmd = [f'{config["phonetisaurus_bin"]}/phonetisaurus-g2pfst', f'--model={model_file}',
-           f'--pmass={pmass}', f'--beam={beam}', f'--wordlist={wlist_file}']
+           f'--nbest={nbest}', f'--pmass={pmass}', f'--beam={beam}', f'--wordlist={wlist_file}']
 
     tmplex = {}
     proc = Popen(cmd, stdout=PIPE, stderr=DEVNULL, text=True)
@@ -78,6 +79,7 @@ def g2p_wlist():
 def g2p_words():
     words = request.form.get('words')
     model_file = config['data'] / 'model' / (request.form.get('model') + '.fst')
+    nbest = int(request.form.get('nbest'))
     pmass = float(request.form.get('pmass'))
     beam = int(request.form.get('beam'))
     type = request.form.get('output')
@@ -88,7 +90,7 @@ def g2p_words():
             g.write(w + '\n')
 
     cmd = [f'{config["phonetisaurus_bin"]}/phonetisaurus-g2pfst', f'--model={model_file}',
-           f'--pmass={pmass}', f'--beam={beam}', f'--wordlist={wlist_file}']
+           f'--nbest={nbest}', f'--pmass={pmass}', f'--beam={beam}', f'--wordlist={wlist_file}']
 
     lex = {}
     proc = Popen(cmd, stdout=PIPE, stderr=DEVNULL, text=True)
