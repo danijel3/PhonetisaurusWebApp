@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container">
+    <h2 class="mt-5">Train G2P model</h2>
+    <div class="container border border-secondary m-2 p-4">
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label" for="name">New model name:</label>
+                <input class="form-control" type="text" name="name" id="name" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="lex">Train lexicon file name:</label>
+                <select name="lex" id="lex" class="form-select">
+                    {% for file in lex_files %}
+                    <option value="{{ file.stem }}">
+                        {{ file.stem }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3 text-center">
+                <input type="submit" value="Train" class="btn btn-warning col-2">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

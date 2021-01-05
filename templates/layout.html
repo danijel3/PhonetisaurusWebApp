@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+            crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+
+
+    <link rel="stylesheet" href="{{ url_for('static',filename='bootstrap-icons/font/bootstrap-icons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='pagination.css') }}">
+    <script src="{{ url_for('static',filename='pagination.min.js') }}"></script>
+
+    <meta charset="UTF-8">
+    <title>PhonetisaurusWebApp</title>
+</head>
+<body>
+<div class="bg-light p-5">
+    <div class="container">
+        <h1>Phonetistaurus G2P Web App</h1>
+    </div>
+</div>
+
+<div class="bg-secondary mb-5">
+    <nav class="container navbar navbar-expand-lg navbar-dark">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/vocab">Vocabularies</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/lex">Lexica</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/g2p">G2P</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/train">Train</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+{% block body %} {% endblock %}
+</body>
+</html>

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container">
+    <h2><i class="bi bi-file-earmark-ruled"></i> Lexica</h2>
+    <div class="container border bg-light p-4">
+        {% for file in files %}
+        <div class="row">
+            <a class="btn btn-lg btn-warning border-dark m-1" href="view/{{ file.stem }}">
+                <i class="bi bi-file-earmark-ruled"></i> {{ file.stem }}
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <a class="btn btn-success form-control" href="/lex/add">+ Add</a>
+</div>
+{% endblock %}

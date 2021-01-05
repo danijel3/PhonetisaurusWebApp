@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container">
+    <h2>Add a new vocabulary file</h2>
+
+    <div class="container border border-secondary m-2 p-4">
+        <form method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label" for="name">Name:</label>
+                <input class="form-control" type="text" name="name" id="name" required>
+            </div>
+            <div class="mb-3">
+
+                <label class="form-label" for="file">File (optional):</label>
+                <input class="form-control" type="file" name="file" id="file">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="type">File type (optional):</label>
+                <div class="form-check" id="type">
+                    <input class="form-check-input" type="radio" name="filetype" value="wordlist"
+                           id="flexRadioDefault1" checked>
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        Word list
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="filetype" value="text" id="flexRadioDefault2">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        Text
+                    </label>
+                </div>
+            </div>
+            <div class="mb-3 text-center">
+                <a href="/vocab" class="btn btn-secondary col-2">Cancel</a>
+                <input type="submit" value="Add" class="btn btn-success col-2">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{# TODO:
+    - normalization
+    - lowercase
+#}

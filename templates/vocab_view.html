@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container">
+    <h2>Vocabulary file <b>{{ file }}</b></h2>
+    <div id="" class="container border-dark bg-light p-4">
+        <div class="d-grid d-md-flex gap-2 justify-content-md-end">
+            <a class="btn btn-danger" title="Delete" href="/vocab/del/{{ file }}"
+               onclick="return confirm('Are you sure?')">
+                <i class="bi bi-trash"></i>
+            </a>
+            <a class="btn btn-info" title="Download" href="/vocab/get/{{ file }}">
+                <i class="bi bi-download"></i>
+            </a>
+            <button class="btn btn-warning" title="Add word" onclick="add_word()">
+                <i class="bi bi-plus-circle-fill"></i>
+            </button>
+            <button id="savebtn" class="btn btn-secondary" title="Save" disabled="disabled">
+                <i class="bi bi-archive"></i>
+            </button>
+        </div>
+        <div id="wordlist"></div>
+        <div id="pagination"></div>
+    </div>
+    <script>
+        let words = [];
+        let dataContainer = $('#wordlist');
+        let saveButton = $('#savebtn');
+        let unsaved = false;
+
+        function refresh_ui(data) {
+            $('#pagination').pagination({
+                dataSource: data,
+                pageSize: 20,
+                callback: function (data, pagination) {
+                    dataContainer.empty();
+                    $.each(data, function (idx, text) {
+                        let el = $('<input>');
+                        el.attr('class', 'row form-control m-1')
+                        el.attr('type', 'text');
+                        el.attr('value', text);
+                        el.on('change', function () {
+                            val = el.attr('value').trim();
+                            if (val)
+                                words[idx] = val;
+                            else
+                                words.splice(idx, 1);
+                            words = [...new Set(words)];
+                            words.sort();
+                            refresh_ui(words);
+                            saveButton.removeClass('btn-secondary');
+                            saveButton.addClass('btn-success');
+                            saveButton.removeAttr('disabled');
+                            unsaved = true;
+                        });
+                        dataContainer.append(el);
+                    });
+                }
+            });
+        }
+
+        $.get('src/{{ file }}', function (data) {
+            words = data;
+            refresh_ui(words);
+        });
+
+        saveButton.on('click', function () {
+            $.post('/vocab/write/{{ file }}', JSON.stringify(words));
+            saveButton.removeClass('btn-success');
+            saveButton.addClass('btn-secondary');
+            saveButton.attr('disabled', 'disabled');
+            unsaved = false;
+        });
+
+        function add_word() {
+            let word = prompt('Enter word:');
+            if (word) {
+                words.push(word);
+                refresh_ui(words);
+                saveButton.removeClass('btn-secondary');
+                saveButton.addClass('btn-success');
+                saveButton.removeAttr('disabled');
+            }
+        }
+
+        $(window).on("beforeunload", function () {
+            if (unsaved)
+                return "There are unsaved changes. Are you sure you want to leave?";
+            else
+                return undefined;
+        });
+    </script>
+</div>
+{% endblock %}
