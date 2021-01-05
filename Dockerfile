@@ -26,7 +26,7 @@ RUN wget https://github.com/downloads/chokkan/liblbfgs/liblbfgs-1.10.tar.gz && \
     make -i install && \
     ldconfig
 
-ADD srilm.tgz ./srilm/
+ADD https://github.com/danijel3/PhonetisaurusWebApp/releases/download/srilm/srilm.tgz ./srilm/
 
 RUN  apt-get -y install gawk
 
