@@ -37,11 +37,11 @@ def train_index():
 
         cmd = [str(config['srilm_bin'] / 'ngram-count'), '-text', str(ali_path), '-lm', str(ngram_path), '-order', '3',
                '-wbdiscount']
-        run(cmd)
+        run(cmd, stderr=DEVNULL)
 
         cmd = [str(config['phonetisaurus_bin'] / 'phonetisaurus-arpa2wfst'), f'--lm={ngram_path}',
                f'--ofile={model_path}']
-        run(cmd)
+        run(cmd, stderr=DEVNULL)
 
         lex_path.unlink()
         ali_path.unlink()

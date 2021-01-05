@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, DEVNULL
 from tempfile import NamedTemporaryFile
 
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, abort
@@ -55,7 +55,7 @@ def g2p_wlist():
            f'--pmass={pmass}', f'--beam={beam}', f'--wordlist={wlist_file}']
 
     tmplex = {}
-    proc = Popen(cmd, stdout=PIPE, text=True)
+    proc = Popen(cmd, stdout=PIPE, stderr=DEVNULL, text=True)
     for l in proc.stdout:
         tok = l.strip().split()
         word = tok[0]
@@ -91,7 +91,7 @@ def g2p_words():
            f'--pmass={pmass}', f'--beam={beam}', f'--wordlist={wlist_file}']
 
     lex = {}
-    proc = Popen(cmd, stdout=PIPE, text=True)
+    proc = Popen(cmd, stdout=PIPE, stderr=DEVNULL, text=True)
     for l in proc.stdout:
         tok = l.strip().split()
         word = tok[0]
