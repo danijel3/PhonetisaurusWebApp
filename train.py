@@ -2,7 +2,7 @@ from pathlib import Path
 from subprocess import run, DEVNULL
 from tempfile import NamedTemporaryFile
 
-from flask import Blueprint, render_template, request, redirect, send_file
+from flask import Blueprint, render_template, request, redirect, send_file, url_for
 from werkzeug.utils import secure_filename
 
 from lex import lex_generator
@@ -56,14 +56,14 @@ def train_index():
 @train_page.route('get/<model>')
 def model_get(model):
     model_path = config['data'] / 'model' / (model + '.fst')
-    return send_file(model_path)
+    return send_file(model_path, mimetype='application/octet-stream', as_attachment=True)
 
 
 @train_page.route('delete/<model>')
 def model_delete(model):
     model_path = config['data'] / 'model' / (model + '.fst')
     model_path.unlink(missing_ok=True)
-    return redirect('train_page.train_index')
+    return redirect(url_for('train_page.train_index'))
 
 
 @train_page.route('add', methods=['post'])
@@ -75,4 +75,4 @@ def model_add():
 
     file.save(str(model_path))
 
-    return redirect('train_page.train_index')
+    return redirect(url_for('train_page.train_index'))
