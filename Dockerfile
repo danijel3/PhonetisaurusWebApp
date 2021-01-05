@@ -2,7 +2,7 @@ FROM python:3 as build
 
 WORKDIR /build
 
-RUN apt-get -y update && apt-get -y install git g++ autoconf-archive make libtool gfortran tar
+RUN apt-get -y update && apt-get -y install git g++ autoconf-archive make libtool gfortran tar gawk
 
 RUN wget http://www.openfst.org/twiki/pub/FST/FstDownload/openfst-1.6.2.tar.gz && \
     tar -xvzf openfst-1.6.2.tar.gz && \
@@ -26,11 +26,9 @@ RUN wget https://github.com/downloads/chokkan/liblbfgs/liblbfgs-1.10.tar.gz && \
     make -i install && \
     ldconfig
 
-ADD https://github.com/danijel3/PhonetisaurusWebApp/releases/download/srilm/srilm.tgz ./srilm/
+ADD https://github.com/danijel3/PhonetisaurusWebApp/releases/download/srilm/srilm.tgz ./srilm.tgz
 
-RUN  apt-get -y install gawk
-
-RUN cd ./srilm/ && cp Makefile tmpf && \
+RUN mkdir srilm && cd ./srilm && tar -xvf ../srilm.tgz && cp Makefile tmpf && \
     cat tmpf | awk -v pwd=`pwd` '/SRILM =/{printf("SRILM = %s\n", pwd); next;} {print;}' > Makefile && \
     mtype=$(sbin/machine-type) && \
     echo HAVE_LIBLBFGS=1 >> common/Makefile.machine.$mtype && \
