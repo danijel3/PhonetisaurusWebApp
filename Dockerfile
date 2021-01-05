@@ -48,7 +48,7 @@ ADD static ./static
 ADD templates ./templates
 ADD *.py ./
 
-ADD data/model/clarin.fst data/model/
+ADD clarin.fst data/model/
 
 COPY --from=build /usr/local/lib/fst /usr/local/lib/fst
 COPY --from=build /usr/local/lib/libfst*so*0 /usr/local/lib/
