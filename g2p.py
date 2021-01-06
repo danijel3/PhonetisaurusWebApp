@@ -115,7 +115,8 @@ def g2p_words():
                 ret += f'{w["w"]}\t{" ".join(t)}\n'
         return ret
     elif type == 'html':
-        ret = '<table>'
+        ret="<style>table,td{border:1px solid black;border-collapse:collapse;padding:0.5em}</style>"
+        ret += '<table>'
         for w in lex:
             if len(w['t']) > 1:
                 ret += '<tr>'
@@ -123,7 +124,10 @@ def g2p_words():
                 ret += f'<td>{" ".join(w["t"][0])}</td>'
                 ret += '</tr>'
                 for t in w['t'][1:]:
+                    ret += '<tr>'
                     ret += f'<td>{" ".join(t)}</td>'
+                    ret += '</tr>'
+
             else:
                 ret += '<tr>'
                 ret += f'<td>{w["w"]}</td>'
