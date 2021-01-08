@@ -18,10 +18,19 @@
                 <i class="bi bi-archive"></i>
             </button>
         </div>
-        <div id="wordlist"></div>
+        <div id="wordlist">
+            <span class="spinner-border" role="status">
+                <span class="sr-only"></span>
+            </span>
+            <span class="ps-3">Loading...</span>
+        </div>
         <div id="pagination"></div>
+        <div id="letter_index"></div>
     </div>
     <script>
+        let letters = 'AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŻŹ'.split('').sort(function (a, b) {
+            return a.localeCompare(b, 'pl');
+        }).join('');
         let words = [];
         let dataContainer = $('#wordlist');
         let saveButton = $('#savebtn');
@@ -31,6 +40,8 @@
             $('#pagination').pagination({
                 dataSource: data,
                 pageSize: 20,
+                showGoInput: true,
+                showGoButton: true,
                 callback: function (data, pagination) {
                     dataContainer.empty();
                     $.each(data, function (idx, text) {
@@ -45,7 +56,9 @@
                             else
                                 words.splice(idx, 1);
                             words = [...new Set(words)];
-                            words.sort();
+                            words.sort(function (a, b) {
+                                return a.localeCompare(b, "pl");
+                            });
                             refresh_ui(words);
                             saveButton.removeClass('btn-secondary');
                             saveButton.addClass('btn-success');
@@ -56,10 +69,29 @@
                     });
                 }
             });
+
+            $('#letter_index').empty();
+            $.each(letters, function (idx, l) {
+                let ll = l.toLowerCase();
+                let i = data.findIndex(el => el.toLowerCase().startsWith(ll));
+
+                let btn = $('<span class="btn btn-sm btn-outline-secondary m-1">' + l + '</span>');
+                $('#letter_index').append(btn);
+                if (i >= 0) {
+                    btn.on('click', function () {
+                        $('#pagination').pagination(Math.trunc(i / 20) + 1);
+                    });
+                } else {
+                    btn.addClass('disabled');
+                }
+            });
+
         }
 
         $.get('src/{{ file }}', function (data) {
-            words = data;
+            words = data.sort(function (a, b) {
+                return a.localeCompare(b, 'pl');
+            });
             refresh_ui(words);
         });
 
